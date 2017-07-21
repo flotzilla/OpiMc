@@ -4,7 +4,7 @@ import vlc
 from utils.Singleton import Singleton
 
 
-class Player(metaclass=Singleton):
+class Player():
     _list = {}
     _stations = []
     _current_station = ''

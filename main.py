@@ -61,11 +61,10 @@ class MediaCenter():
         self.utils = Utils.Utils(self.temp_sensor_file)
 
     def read_button_states(self):
-        global button_states
-        button_states['b1'] = gpio.input(self.b1)
-        button_states['b2'] = gpio.input(self.b2)
-        button_states['b3'] = gpio.input(self.b3)
-        button_states['b4'] = gpio.input(self.b4)
+        self.button_states['b1'] = gpio.input(self.b1)
+        self.button_states['b2'] = gpio.input(self.b2)
+        self.button_states['b3'] = gpio.input(self.b3)
+        self.button_states['b4'] = gpio.input(self.b4)
 
     # screen state 0
     def display_default_screen(self):
@@ -97,6 +96,7 @@ class MediaCenter():
 
 if __name__ == '__main__':
     mc = MediaCenter()
+    mc.display_default_screen()
     try:
         while True:
             mc.read_button_states()
@@ -114,12 +114,13 @@ if __name__ == '__main__':
 
             if mc.button_states['b4']:  # press change screen mode
                 mc.next_screen()
-                if mc.current_screen == 0:
-                    mc.display_default_screen()
-                elif mc.current_screen == 1:
-                    mc.display_alternative_screen()
-                elif mc.current_screen == 2:
-                    mc.display_screen2()
+
+            if mc.current_screen == 0:
+                mc.display_default_screen()
+            elif mc.current_screen == 1:
+                mc.display_alternative_screen()
+            elif mc.current_screen == 2:
+                mc.display_screen2()
 
             time.sleep(1)
 
