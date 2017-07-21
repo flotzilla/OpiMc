@@ -84,7 +84,7 @@ class MediaCenter():
             # write dynamic char at the end of first line
             self.lcd.lcd_write_char(5)
         else:
-            self.lcd.lcd_write_char(' ')
+            self.lcd.lcd_write_char(ord(' '))
 
     # screen state 1
     def display_alternative_screen(self):
