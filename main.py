@@ -77,10 +77,14 @@ class MediaCenter():
         self.lcd.lcd_write(0xC0)
         self.lcd.lcd_write_char(2)
         self.lcd.lcd_display_string_pos("%sC    " % mc.utils.read_temp(), 2, 1)
+
+        # display player icon
+        self.lcd.lcd_write(0x80 + 15)
         if mc.player.isPlaying:
             # write dynamic char at the end of first line
-            self.lcd.lcd_write(0x80 + 15)
             self.lcd.lcd_write_char(5)
+        else:
+            self.lcd.lcd_write_char(' ')
 
     # screen state 1
     def display_alternative_screen(self):
