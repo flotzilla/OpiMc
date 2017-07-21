@@ -86,7 +86,10 @@ class MediaCenter():
         self.lcd.lcd_write(0x080)
         self.lcd.lcd_write_char(3)
 
-        self.lcd.lcd_display_string(self.player.get_current_station()[:16], 2)
+        str = self.player.get_current_station()[:16]
+        spaces = 16 - len(str)
+
+        self.lcd.lcd_display_string(str + spaces * " ", 2)
 
     def lcd_print(self, line1, line2):
         pass
