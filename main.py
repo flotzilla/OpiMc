@@ -61,11 +61,10 @@ class MediaCenter():
         self.utils = Utils.Utils(self.temp_sensor_file)
 
     def read_button_states(self):
-        global button_states
-        button_states['b1'] = gpio.input(self.b1)
-        button_states['b2'] = gpio.input(self.b2)
-        button_states['b3'] = gpio.input(self.b3)
-        button_states['b4'] = gpio.input(self.b4)
+        self.button_states['b1'] = gpio.input(self.b1)
+        self.button_states['b2'] = gpio.input(self.b2)
+        self.button_states['b3'] = gpio.input(self.b3)
+        self.button_states['b4'] = gpio.input(self.b4)
 
     # screen state 0
     def display_default_screen(self):
