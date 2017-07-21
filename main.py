@@ -82,7 +82,11 @@ class MediaCenter():
 
     # screen state 2
     def display_screen2(self):
-        self.lcd.lcd_display_string(self.player.get_current_station()[:16], 1)
+        self.lcd.lcd_display_string_pos("%s" % time.strftime("%H:%M %d/%m"), 1, 1)
+        self.lcd.lcd_write(0x080)
+        self.lcd.lcd_write_char(3)
+
+        self.lcd.lcd_display_string(self.player.get_current_station()[:16], 2)
 
     def lcd_print(self, line1, line2):
         pass
@@ -92,6 +96,9 @@ class MediaCenter():
             self.current_screen = 0
         else:
             self.current_screen = self.current_screen + 1
+
+    def clear_screen(self):
+        self.lcd.lcd_clear()
 
 
 if __name__ == '__main__':
@@ -113,6 +120,7 @@ if __name__ == '__main__':
                 mc.player.next_station()
 
             if mc.button_states['b4']:  # press change screen mode
+                mc.clear_screen()
                 mc.next_screen()
 
             if mc.current_screen == 0:
@@ -122,7 +130,7 @@ if __name__ == '__main__':
             elif mc.current_screen == 2:
                 mc.display_screen2()
 
-            time.sleep(1)
+            time.sleep(0.5)
 
     except KeyboardInterrupt:
         print(u"\r\n Bye")
