@@ -1,0 +1,77 @@
+{
+    "Secret agent": {
+        "name": "Soma.fm Secret agent",
+        "link": "http://ice.somafm.com/secretagent",
+        "genre": ""
+    },
+    "Soul": {
+        "name": "Soma.fm Soul",
+        "link": "http://ice1.somafm.com/7soul-128-mp3",
+        "genre": ""
+    },
+    "Kexp": {
+        "name": "Kexp",
+        "link": "http://live-mp3-128.kexp.org/kexp128.mp3",
+        "genre": "indie"
+    },
+    "folk": {
+        "name": "Soma.fm folk",
+        "link": "http://ice1.somafm.com/folkfwd-128-mp3",
+        "genre": ""
+    },
+    "sf1033": {
+        "name": "Soma.fm sf1033",
+        "link": "http://ice1.somafm.com/sf1033-128-mp3",
+        "genre": ""
+    },
+    "indie": {
+        "name": "Soma.fm indie",
+        "link": "http://ice2.somafm.com/indiepop-128-mp3",
+        "genre": ""
+    },
+    "defcon": {
+        "name": "Soma.fm defcon",
+        "link": "http://ice1.somafm.com/defcon-256-mp3",
+        "genre": ""
+    },
+    "rock": {
+        "name": "Soma.fm rock",
+        "link": "http://ice1.somafm.com/bagel-128-mp3",
+        "genre": ""
+    },
+    "black rock": {
+        "name": "Soma.fm black rock",
+        "link": "http://ice1.somafm.com/brfm-128-mp3",
+        "genre": ""
+    },
+    "mission control": {
+        "name": "Soma.fm mission controll",
+        "link": "http://ice1.somafm.com/missioncontrol-128-mp3",
+        "genre": ""
+    },
+    "lush": {
+        "name": "Soma.fm lush",
+        "link": "http://ice1.somafm.com/lush-128-mp3",
+        "genre": ""
+    },
+    "groove": {
+        "name": "Soma.fm groove",
+        "link": "http://ice1.somafm.com/groovesalad-128-mp3",
+        "genre": ""
+    },
+    "metal detector": {
+        "name": "Soma.fm metal detector",
+        "link": "http://ice1.somafm.com/metal-128-mp3",
+        "genre": ""
+    },
+    "doomed": {
+        "name": "Soma.fm doomed",
+        "link": "http://ice1.somafm.com/doomed-128-mp3",
+        "genre": ""
+    },
+    "digitalis": {
+        "name": "Soma.fm digitalis",
+        "link": "http://ice1.somafm.com/digitalis-128-mp3",
+        "genre": ""
+    }
+}
