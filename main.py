@@ -19,7 +19,9 @@ class MediaCenter():
         # clocks
         [0x00, 0x00, 0x0e, 0x15, 0x17, 0x11, 0x0e, 0x00],
         # bell
-        [0x04, 0x0e, 0x11, 0x11, 0x11, 0x11, 0x1f, 0x04]
+        [0x04, 0x0e, 0x11, 0x11, 0x11, 0x11, 0x1f, 0x04],
+        # dynamic
+        [0x02, 0x06, 0x0E, 0x1E, 0x1E, 0x0E, 0x06, 0x02]
     ]
 
     # gpio
@@ -38,6 +40,7 @@ class MediaCenter():
 
     # hardware states
     button_states = {'b1': False, 'b2': False, 'b3': False, 'b4': False}
+    prev_button_states = {'b1': False, 'b2': False, 'b3': False, 'b4': False}
     current_screen = 0  # 0 or 1 or 2
 
     last_temp_value = ''
@@ -74,6 +77,10 @@ class MediaCenter():
         self.lcd.lcd_write(0xC0)
         self.lcd.lcd_write_char(2)
         self.lcd.lcd_display_string_pos("%sC    " % mc.utils.read_temp(), 2, 1)
+        if mc.player.isPlaying:
+            # write dynamic char at the end of first line
+            self.lcd.lcd_write(0x80 + 15)
+            self.lcd.lcd_write_char(5)
 
     # screen state 1
     def display_alternative_screen(self):
@@ -110,11 +117,16 @@ if __name__ == '__main__':
     try:
         while True:
             mc.read_button_states()
+
             if mc.button_states['b1']:  # press play / pause
-                if mc.player.isPlaying:
-                    mc.player.pause()
-                else:
-                    mc.player.play()
+                if mc.prev_button_states['b1'] is not True:
+                    if mc.player.isPlaying:
+                        mc.player.pause()
+                    else:
+                        mc.player.play()
+                    mc.prev_button_states['b1'] = True
+            else:
+                mc.prev_button_states['b1'] = False
 
             if mc.button_states['b2']:  # press prev station
                 mc.player.prev_station()
