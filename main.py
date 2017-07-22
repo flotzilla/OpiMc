@@ -1,8 +1,16 @@
 import time
 from classes import MediaCenter
+import logging
+
+logger = logging.getLogger('OpiMc logger')
+fh = logging.FileHandler('app.log')
+fh.setLevel(logging.DEBUG)
+fh.setFormatter(logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s'))
+logger.addHandler(fh)
 
 if __name__ == '__main__':
-    mc = MediaCenter.MediaCenter()
+    logger.debug('starting new session')
+    mc = MediaCenter.MediaCenter(logger)
     mc.display_default_screen()
     try:
         while True:
@@ -40,4 +48,7 @@ if __name__ == '__main__':
     except KeyboardInterrupt:
         print(u"\r\n Bye")
     finally:
+        mc.save_config_to_file()
         mc.clear_screen()
+        logger.debug('going down')
+

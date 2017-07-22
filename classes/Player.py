@@ -56,6 +56,12 @@ class Player():
                 self._current_station_link)
         )
 
+    def set_station(self, station_name):
+        for i in range(0, len(self._stations)):
+            if self._stations[i] == station_name:
+                self._current_station_indx = i
+                self._load_station()
+
     def play(self):
         self._player_instance.play()
         self.isPlaying = True
@@ -66,5 +72,3 @@ class Player():
 
     def get_current_station(self):
         return self._current_station
-
-

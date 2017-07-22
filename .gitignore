@@ -1,5 +1,7 @@
 *.pyc
 .idea/**
+.idea/
 __pycache__/
 devices/__pycache__/
 utils/__pycache__/
+app.log

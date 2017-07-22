@@ -8,12 +8,6 @@ from classes import Player
 from devices import I2C_LCD_driver
 from utils import Utils
 
-logger = logging.getLogger('OpiMc logger')
-fh = logging.FileHandler('app.log')
-fh.setLevel(logging.DEBUG)
-fh.setFormatter(logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s'))
-logger.addHandler(fh)
-
 
 class MediaCenter:
     # lcs custom chars for dislay
@@ -51,10 +45,15 @@ class MediaCenter:
     prev_button_states = {'b1': False, 'b2': False, 'b3': False, 'b4': False}
     current_screen = 0  # 0 or 1 or 2
 
-    last_temp_value = ''
+    logger = None
     config = {}
+    _config_file = 'config.yaml'
 
-    def __init__(self):
+    def __init__(self, logger):
+        self.logger = logger
+        self.read_config()
+
+        logger.debug('Init gpio settings')
         gpio.init()
         gpio.setcfg(self.b1, gpio.INPUT)
         gpio.setcfg(self.b2, gpio.INPUT)
@@ -71,13 +70,23 @@ class MediaCenter:
 
         self.player = Player.Player()
         self.utils = Utils.Utils(self.temp_sensor_file)
+        if 'last_station' in self.config:
+            self.player.set_station(self.config['last_station'])
 
     def read_config(self):
-        with open('config.yaml', 'r') as f:
+        self.logger.debug('Reading configuration file')
+        with open(self._config_file, 'r') as f:
             try:
                 self.config = yaml.load(f)
             except yaml.YAMLError as exc:
                 logging.error(exc.message)
+
+    def save_config_to_file(self):
+        with open(self._config_file, 'w') as outfile:
+            yaml.dump(self.config, outfile, default_flow_style=False)
+
+    def set_config_param(self, param_name, param_value):
+        self.config[param_name] = param_value
 
     def read_button_states(self):
         self.button_states['b1'] = gpio.input(self.b1)
@@ -92,20 +101,20 @@ class MediaCenter:
         self.lcd.lcd_write_char(3)
         self.lcd.lcd_write(0xC0)
         self.lcd.lcd_write_char(2)
-        self.lcd.lcd_display_string_pos("%sC    " % mc.utils.read_temp(), 2, 1)
+        self.lcd.lcd_display_string_pos("%sC    " % self.utils.read_temp(), 2, 1)
 
         # display player icon
         self.lcd.lcd_write(0x80 + 15)
-        if mc.player.isPlaying:
-            # write dynamic char at the end of first line
+        if self.player.isPlaying:
+            # write speaker char at the end of first line
             self.lcd.lcd_write_char(5)
         else:
             self.lcd.lcd_write_char(ord(' '))
 
     # screen state 1
     def display_alternative_screen(self):
-        self.lcd.lcd_display_string("CPU:%s%%    " % mc.utils.get_cpu_load().strip(), 1)
-        self.lcd.lcd_display_string("Mem:%sMb" % mc.utils.get_ram_usage().strip(), 2)
+        self.lcd.lcd_display_string("CPU:%s%%    " % self.utils.get_cpu_load().strip(), 1)
+        self.lcd.lcd_display_string("Mem:%sMb" % self.utils.get_ram_usage().strip(), 2)
 
     # screen state 2
     def display_screen2(self):
