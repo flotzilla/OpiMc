@@ -1,0 +1,7 @@
+* add more radio stations
+* add parser for stations
+* add tcp server
+    - read temp action
+    - play/pause action
+    - get temp action
+
