@@ -28,9 +28,11 @@ if __name__ == '__main__':
 
             if mc.button_states['b2']:  # press prev station
                 mc.player.prev_station()
+                mc.set_config_param('last_station', mc.player.get_current_station())
 
             if mc.button_states['b3']:  # press next station
                 mc.player.next_station()
+                mc.set_config_param('last_station', mc.player.get_current_station())
 
             if mc.button_states['b4']:  # press change screen mode
                 mc.clear_screen()
