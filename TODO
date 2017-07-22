@@ -1,7 +1,9 @@
-* add more radio stations
-* add parser for stations
+* add more radio stations [done]
+* add parser for stations ??
+* add outdoor temperature
 * add tcp server
     - read temp action
     - play/pause action
-    - get temp action
+* add config file
+    last played radio station
 
