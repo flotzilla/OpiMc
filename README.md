@@ -20,7 +20,7 @@ Feautures
 
 Dependencies
 =========
-Python modules `smbus, python-vlc, pyA20`
+Python modules `smbus, python-vlc, pyA20, pyyaml`
 
 Module `pyA20` was wrote for python version 2, so Python2 only 
    

@@ -48,6 +48,7 @@ if __name__ == '__main__':
     except KeyboardInterrupt:
         print(u"\r\n Bye")
     finally:
+        mc.set_config_param('last_station', mc.player.get_current_station())
         mc.save_config_to_file()
         mc.clear_screen()
         logger.debug('going down')
