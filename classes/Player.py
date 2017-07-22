@@ -1,8 +1,6 @@
 import json
 import vlc
 
-from utils.Singleton import Singleton
-
 
 class Player():
     _list = {}
