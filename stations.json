@@ -73,5 +73,75 @@
         "name": "Soma.fm digitalis",
         "link": "http://ice1.somafm.com/digitalis-128-mp3",
         "genre": ""
+    },
+    "MEGATON CAFE": {
+        "name": "MEGATON CAFE",
+        "link": "http://us2.internet-radio.com:8443/stream",
+        "genre": "blues"
+    },
+    "uk5 blues": {
+        "name": "uk5 blues",
+        "link": "http://uk5.internet-radio.com:8213/stream",
+        "genre": ""
+    },
+    "Classic rock florida": {
+        "name": "Rock Florida",
+        "link": "http://us2.internet-radio.com:8046/",
+        "genre": "rock"
+    },
+    "Rock planet": {
+        "name": "Rock planet",
+        "link": "http://178.79.158.160:8022/stream",
+        "genre": "rock"
+    },
+    "Radio Panther": {
+        "name": "Radio Panther",
+        "link": "http://uk6.internet-radio.com:8271/stream",
+        "genre": "rock"
+    },
+    "Rocky.fm": {
+        "name": "Rocky.fm",
+        "link": "http://tuner.rockyfm.com:80",
+        "genre": "rock"
+    },
+    "Radio bloodstream": {
+        "name": "Radio bloodstream",
+        "link": "http://uk1.internet-radio.com:8294/live",
+        "genre": "metal"
+    },
+    "Undertow Radio ": {
+        "name": "Undertow Radio ",
+        "link": "http://uk5.internet-radio.com:8189/stream",
+        "genre": "metal"
+    },
+    "idobi Howl": {
+        "name": "idobi Howl",
+        "link": "http://69.46.88.26:80/",
+        "genre": "metal"
+    },
+    "rockhausradio.de": {
+        "name": "rockhausradio.de",
+        "link": "http://91.250.77.9:8220/",
+        "genre": "metal"
+    },
+    "metalrock.fm": {
+        "name": "metalrock.fm",
+        "link": "http://192.99.62.212:9854/stream",
+        "genre": "metal"
+    },
+    "SoniXCast metal": {
+        "name": "rockhausradio.de",
+        "link": "http://192.99.62.212:9904/stream",
+        "genre": "metal"
+    },
+    "Violent force": {
+        "name": "Violent force",
+        "link": "http://69.175.13.130:8080/",
+        "genre": "thrash metal"
+    },
+    "Thrasher": {
+        "name": "Thrasher",
+        "link": "http://188.165.212.92:8020/thrasher128mp3",
+        "genre": "thrash metal"
     }
 }
