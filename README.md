@@ -27,8 +27,18 @@ Module `pyA20` was wrote for python version 2, so Python2 only
 Preparations
 ======
 - Add stream radio sources to `stations.json` file
-- Change `temp_sensor_file` value in `main.py` file to your ds18b20 sensor w1 address
-- Change lcd i2c address in `I2C_LCD_driver.py` file from 0x3F to your address
+- Change `temp_sensor_file` value in `classes/MediaCenter.py` file to your ds18b20 sensor w1 address
+- Change lcd i2c address in `devices/I2C_LCD_driver.py` file from __0x3F__ to your address
   
+---  
+
 Source of the lcd driver was found [here](https://gist.github.com/DenisFromHR/cc863375a6e19dce359d) 
-  
+
+---
+
+To run app on system startup (systemd) copy `opimc.service` to `/lib/systemd/system/` directory  
+and run `chmod 644 opimc.service`
+
+Then run `sudo systemctl daemon-reload` and ` sudo systemctl enable myscript.service`.  
+ App will start on next reboot.   
+To run immediately type `sudo systemctl start myscript.service` 
