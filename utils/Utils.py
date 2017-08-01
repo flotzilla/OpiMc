@@ -40,11 +40,15 @@ class Utils:
 
     def read_temp(self):
         lines = self.read_temp_raw()
-        while lines[0].strip()[-3:] != 'YES':
-            time.sleep(0.2)
+        counter = 1
+        while lines[0].strip()[-3:] != 'YES' or counter == 5:
+            time.sleep(0.1)
             lines = self.read_temp_raw()
+            counter += 1
         temp_output = lines[1].find('t=')
         if temp_output != -1:
             temp_string = lines[1].strip()[temp_output + 2:]
             temp_c = str(round(float(temp_string) / 1000.0, 2))
             return temp_c
+        else:
+            return False

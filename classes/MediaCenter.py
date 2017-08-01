@@ -49,6 +49,9 @@ class MediaCenter:
     config = {}
     _config_file = 'config.yaml'
 
+    # variables
+    curr_temp = prev_temp = 0.00
+
     def __init__(self, logger):
         self.logger = logger
         self.read_config()
@@ -96,12 +99,18 @@ class MediaCenter:
 
     # screen state 0
     def display_default_screen(self):
+        self.curr_temp = self.utils.read_temp()
+        if self.curr_temp:
+            self.prev_temp = self.curr_temp
+        else:
+            self.curr_temp = self.prev_temp
+
         self.lcd.lcd_display_string_pos("%s" % time.strftime("%H:%M %d/%m"), 1, 1)
         self.lcd.lcd_write(0x080)
         self.lcd.lcd_write_char(3)
         self.lcd.lcd_write(0xC0)
         self.lcd.lcd_write_char(2)
-        self.lcd.lcd_display_string_pos("%sC    " % self.utils.read_temp(), 2, 1)
+        self.lcd.lcd_display_string_pos("%sC    " % self.curr_temp, 2, 1)
 
         # display player icon
         self.lcd.lcd_write(0x80 + 15)
