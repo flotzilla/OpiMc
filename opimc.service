@@ -1,0 +1,10 @@
+[Unit]
+Description=Media center 
+After=multi-user.target
+
+[Service]
+Type=idle
+ExecStart=/usr/bin/python /home/pi/dev/OpiMc/main.py
+
+[Install]
+WantedBy=multi-user.target
