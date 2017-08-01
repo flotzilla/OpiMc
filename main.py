@@ -45,7 +45,7 @@ if __name__ == '__main__':
             elif mc.current_screen == 2:
                 mc.display_screen2()
 
-            time.sleep(0.5)
+            time.sleep(0.2)
 
     except KeyboardInterrupt:
         print(u"\r\n Bye")
