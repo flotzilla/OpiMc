@@ -11,7 +11,7 @@ class Utils:
     @staticmethod
     def get_ram_usage():
         p1 = subprocess.Popen(["free"], stdout=subprocess.PIPE)
-        p = subprocess.Popen(["awk", r'/Mem/{printf("%.2f \n"), $3/$2*100}'],
+        p = subprocess.Popen(["awk", r'/Mem/{printf("%.1f \n"), $3/$2*100}'],
                              stdout=subprocess.PIPE, stdin=p1.stdout)
         free_ram, err = p.communicate()
         return free_ram
@@ -29,7 +29,7 @@ class Utils:
         l = (stime + stime1).replace("cpu  ", "").replace("\n", " ").split()
 
         tempo = int(l[10]) - int(l[0]) + int(l[12]) - int(l[2])
-        result = "%.2f" % (tempo * 100 / (tempo + int(l[13]) - int(l[3])))
+        result = "%.1f" % (tempo * 100 / (tempo + int(l[13]) - int(l[3])))
         return result
 
     @staticmethod
