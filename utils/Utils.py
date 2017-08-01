@@ -32,6 +32,16 @@ class Utils:
         result = "%.2f" % (tempo * 100 / (tempo + int(l[13]) - int(l[3])))
         return result
 
+    @staticmethod
+    def get_cpu_temp():
+        p = subprocess.Popen(["cat", '/sys/devices/virtual/thermal/thermal_zone0/temp'], stdout=subprocess.PIPE)
+        time.sleep(0.1)
+        line = p.stdout.readline()
+        if line != '':
+            return line.rstrip()
+        else:
+            return False
+
     def read_temp_raw(self):
         f = open(self.temp_sensor_file, 'r')
         str = f.readlines()
