@@ -36,9 +36,12 @@ Source of the lcd driver was found [here](https://gist.github.com/DenisFromHR/cc
 
 ---
 
-To run app on system startup (systemd) copy `opimc.service` to `/lib/systemd/system/` directory  
-and run `chmod 644 opimc.service`
+To run app on system startup (systemd) edit __WorkingDirectory__ and __ExecStart__ params  
+in `opimc.service` and then copy file to `/lib/systemd/system/` directory  
 
-Then run `sudo systemctl daemon-reload` and ` sudo systemctl enable myscript.service`.  
- App will start on next reboot.   
+`chmod 644 opimc.service`  
+`sudo systemctl daemon-reload`   
+`sudo systemctl enable myscript.service`  
+
+App will start on next reboot.   
 To run immediately type `sudo systemctl start myscript.service` 
