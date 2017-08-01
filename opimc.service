@@ -3,8 +3,13 @@ Description=Media center
 After=multi-user.target
 
 [Service]
-Type=idle
+Type=simple
+User=root
+WorkingDirectory=/home/pi/dev/OpiMc
 ExecStart=/usr/bin/python /home/pi/dev/OpiMc/main.py
+
+StandardOutput=null
+StandardError=null
 
 [Install]
 WantedBy=multi-user.target
