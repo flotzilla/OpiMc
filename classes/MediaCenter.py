@@ -112,21 +112,16 @@ class MediaCenter:
         self.lcd.lcd_write_char(2)
         self.lcd.lcd_display_string_pos("%sC    " % self.curr_temp, 2, 1)
 
-        # display player icon
-        self.lcd.lcd_write(0x80 + 15)
-        if self.player.isPlaying:
-            # write speaker char at the end of first line
-            self.lcd.lcd_write_char(5)
-        else:
-            self.lcd.lcd_write_char(ord(' '))
+        self._display_player_icon()
 
     # screen state 1
     def display_alternative_screen(self):
-        self.lcd.lcd_display_string("CPU:%s%% T:%sC" % (self.utils.get_cpu_load().strip(), self.utils.get_cpu_temp()), 1)
-        self.lcd.lcd_display_string("Mem:%sMb" % self.utils.get_ram_usage().strip(), 2)
+        self.lcd.lcd_display_string("CPU:%s%% T:%sC " % (self.utils.get_cpu_load().strip(), self.utils.get_cpu_temp()), 1)
+        self.lcd.lcd_display_string("Mem:%sMb  " % self.utils.get_ram_usage().strip(), 2)
 
     # screen state 2
     def display_screen2(self):
+        self._display_player_icon()
         self.lcd.lcd_display_string_pos("%s" % time.strftime("%H:%M %d/%m"), 1, 1)
         self.lcd.lcd_write(0x080)
         self.lcd.lcd_write_char(3)
@@ -147,3 +142,12 @@ class MediaCenter:
 
     def clear_screen(self):
         self.lcd.lcd_clear()
+
+    def _display_player_icon(self):
+        # display player icon
+        self.lcd.lcd_write(0x80 + 15)
+        if self.player.isPlaying:
+            # write speaker char at the end of first line
+            self.lcd.lcd_write_char(5)
+        else:
+            self.lcd.lcd_write_char(ord(' '))
