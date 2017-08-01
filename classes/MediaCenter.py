@@ -122,7 +122,7 @@ class MediaCenter:
 
     # screen state 1
     def display_alternative_screen(self):
-        self.lcd.lcd_display_string("CPU:%s%%    " % self.utils.get_cpu_load().strip(), 1)
+        self.lcd.lcd_display_string("CPU:%s%% T:%sC" % (self.utils.get_cpu_load().strip(), self.utils.get_cpu_temp()), 1)
         self.lcd.lcd_display_string("Mem:%sMb" % self.utils.get_ram_usage().strip(), 2)
 
     # screen state 2
