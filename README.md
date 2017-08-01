@@ -1,5 +1,6 @@
 OpiMc
 =======
+Internet radio streaming with HD44780 display.  
 Media center for Orange Pi Zero written in Python
 
 Requirements
