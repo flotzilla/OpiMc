@@ -6,15 +6,14 @@ from SimpleHTTPServer import SimpleHTTPRequestHandler
 media_center_instance = None
 config_instance = None
 logger_instance = None
+key = None
 
 
 class RequestHandler(SimpleHTTPRequestHandler):
-    key = None
-
     def __init__(self, request, client_address, server):
-        global config_instance, media_center_instance
+        global config_instance, media_center_instance, key
         SimpleHTTPRequestHandler.__init__(self, request, client_address, server)
-        self.key = base64.b64encode(config_instance['server_user_name'] + ':' + config_instance['server_user_password'])
+        key = base64.b64encode(config_instance['server_user_name'] + ':' + config_instance['server_user_password'])
 
     def _set_headers(self):
         self.send_response(200)
@@ -22,10 +21,11 @@ class RequestHandler(SimpleHTTPRequestHandler):
         self.end_headers()
 
     def do_GET(self):
+        global key
         if self.headers.getheader('Authorization') is None:
             self.do_AUTHHEAD()
             self.wfile.write('No auth received')
-        elif self.headers.getheader('Authorization') == 'Basic ' + self.key:
+        elif self.headers.getheader('Authorization') == 'Basic ' + key:
             self._set_headers()
             self.wfile.write("<body><p>This is a test.</p>")
         else:
