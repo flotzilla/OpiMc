@@ -5,3 +5,4 @@ devices/__pycache__/
 utils/__pycache__/
 app.log
 certfile/server.pem
+.gitignore
