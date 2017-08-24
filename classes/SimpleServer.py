@@ -9,7 +9,12 @@ logger_instance = None
 
 
 class RequestHandler(SimpleHTTPRequestHandler):
-    key = base64.b64encode(config_instance['server_user_name'] + ':' + config_instance['server_user_password'])
+    key = None
+
+    def __init__(self, request, client_address, server):
+        global config_instance, media_center_instance
+        SimpleHTTPRequestHandler.__init__(self, request, client_address, server)
+        self.key = base64.b64encode(config_instance['server_user_name'] + ':' + config_instance['server_user_password'])
 
     def _set_headers(self):
         self.send_response(200)
