@@ -71,6 +71,6 @@ class SimpleServer:
         server_address = (self.server_address, self.port)
         httpd = HTTPServer(server_address, RequestHandler)
         httpd.socket = ssl.wrap_socket(httpd.socket,
-                                       certfile=config_instance['ssl_cert_file_location'],
+                                       certfile='./' + config_instance['ssl_cert_file_location'],
                                        server_side=True)
         httpd.serve_forever()

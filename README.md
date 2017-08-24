@@ -34,13 +34,13 @@ Preparations
 - Change `temp_sensor_file` value in `config.yaml` file to your ds18b20 sensor w1 address
 - Change lcd i2c address in `devices/I2C_LCD_driver.py` file from __0x3F__ to your address
 - Generate ssl key for build-in http-server with command  `openssl req -new -x509 -keyout server.pem -out server.pem -days 365 -nodes`
- and put `server.pem` file to `certfile` directory
+ and put `server.pem` file to `certfile` directory. Notice, that common name should be `localhost` or `127.0.0.1` in config name and pem file 
 - Change `server_user_name` and `server_user_password` params to yours for base http authentication 
 
 
 --- 
 
-Source of the lcd driver was found [here](https://gist.github.com/DenisFromHR/cc863375a6e19dce359d) 
+Source of the lcd driver was found [here](https://gist.github.com/DenisFromHR/cc863375a6e19dce359d)  
 
 ---
 
