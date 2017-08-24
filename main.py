@@ -2,14 +2,22 @@ import time
 from classes import MediaCenter
 import logging
 
-logger = logging.getLogger('OpiMc logger')
-fh = logging.FileHandler('app.log')
-fh.setLevel(logging.DEBUG)
-fh.setFormatter(logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s'))
-logger.addHandler(fh)
+logger = None
+
+
+def init_logger():
+    global logger
+    logger = logging.getLogger('OpiMc logger')
+    fh = logging.FileHandler('app.log')
+    fh.setLevel(logging.DEBUG)
+    fh.setFormatter(logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s'))
+    logger.addHandler(fh)
+
 
 if __name__ == '__main__':
+    init_logger()
     logger.debug('starting new session')
+
     mc = MediaCenter.MediaCenter(logger)
     mc.display_default_screen()
     try:
@@ -54,4 +62,3 @@ if __name__ == '__main__':
         mc.save_config_to_file()
         mc.clear_screen()
         logger.debug('going down')
-
