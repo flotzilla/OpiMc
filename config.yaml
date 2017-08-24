@@ -1,2 +1,11 @@
 last_station: Rocky.fm
 default_city: Kherson
+
+temp_sensor_file: '/sys/bus/w1/devices/28-05168238f6ff/w1_slave'
+cpu_temp_file: '/sys/devices/virtual/thermal/thermal_zone0/temp'
+
+ssl_cert_file_location: 'certfile/server.pem'
+server_port: 10000
+server_address: 'localhost'
+server_user_name: 'user'
+server_user_password: 'pass'

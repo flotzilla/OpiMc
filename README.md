@@ -1,7 +1,10 @@
 OpiMc
-=======
-Internet radio streaming with HD44780 display.  
-Media center for Orange Pi Zero written in Python
+=======  
+Internet-radio player for Orange Pi Zero written in Python2. 
+
+Device use HD44780 display and sensor buttons to controll it. 
+Also, use build-in http server to handle request remotely via json-api, using https connection and base http auth(yes, its lame)
+
 
 Requirements
 ==========
@@ -21,17 +24,21 @@ Feautures
 
 Dependencies
 =========
-Python modules `smbus, python-vlc, pyA20, pyyaml`
+Python modules `smbus, python-vlc, pyA20, pyyaml, ssl`
 
 Module `pyA20` was wrote for python version 2, so Python2 only 
    
 Preparations
 ======
 - Add stream radio sources to `stations.json` file
-- Change `temp_sensor_file` value in `classes/MediaCenter.py` file to your ds18b20 sensor w1 address
+- Change `temp_sensor_file` value in `config.yaml` file to your ds18b20 sensor w1 address
 - Change lcd i2c address in `devices/I2C_LCD_driver.py` file from __0x3F__ to your address
-  
----  
+- Generate ssl key for build-in http-server with command  `openssl req -new -x509 -keyout server.pem -out server.pem -days 365 -nodes`
+ and put `server.pem` file to `certfile` directory
+- Change `server_user_name` and `server_user_password` params to yours for base http authentication 
+
+
+--- 
 
 Source of the lcd driver was found [here](https://gist.github.com/DenisFromHR/cc863375a6e19dce359d) 
 

@@ -1,12 +1,9 @@
-import logging
 import time
 
-import yaml
 from pyA20.gpio import gpio
 from pyA20.gpio import port
 from classes import Player
 from devices import I2C_LCD_driver
-from utils import Utils
 
 
 class MediaCenter:
@@ -32,9 +29,6 @@ class MediaCenter:
     b3 = port.PA0  # next track
     b4 = port.PA3  # alternation mode for screen state
 
-    # ds18b20 i2c location
-    temp_sensor_file = '/sys/bus/w1/devices/28-05168238f6ff/w1_slave'
-
     # statements
     player = None
     lcd = None
@@ -46,15 +40,13 @@ class MediaCenter:
     current_screen = 0  # 0 or 1 or 2
 
     logger = None
-    config = {}
-    _config_file = 'config.yaml'
 
     # variables
     curr_temp = prev_temp = 0.00
 
-    def __init__(self, logger):
+    def __init__(self, utils, logger):
         self.logger = logger
-        self.read_config()
+        self.utils = utils
 
         logger.debug('Init gpio settings')
         gpio.init()
@@ -72,24 +64,8 @@ class MediaCenter:
         self.lcd.lcd_load_custom_chars(self.custom_chars)
 
         self.player = Player.Player()
-        self.utils = Utils.Utils(self.temp_sensor_file)
-        if 'last_station' in self.config:
-            self.player.set_station(self.config['last_station'])
-
-    def read_config(self):
-        self.logger.debug('Reading configuration file')
-        with open(self._config_file, 'r') as f:
-            try:
-                self.config = yaml.load(f)
-            except yaml.YAMLError as exc:
-                logging.error(exc.message)
-
-    def save_config_to_file(self):
-        with open(self._config_file, 'w') as outfile:
-            yaml.dump(self.config, outfile, default_flow_style=False)
-
-    def set_config_param(self, param_name, param_value):
-        self.config[param_name] = param_value
+        if 'last_station' in self.utils.config:
+            self.player.set_station(self.utils.config['last_station'])
 
     def read_button_states(self):
         self.button_states['b1'] = gpio.input(self.b1)

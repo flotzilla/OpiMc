@@ -2,7 +2,7 @@ import json
 import vlc
 
 
-class Player():
+class Player:
     _list = {}
     _stations = []
     _current_station = ''

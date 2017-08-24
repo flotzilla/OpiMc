@@ -1,6 +1,8 @@
 import time
-from classes import MediaCenter
+from classes import MediaCenter, SimpleServer
 import logging
+
+from utils import Utils
 
 logger = None
 
@@ -18,8 +20,13 @@ if __name__ == '__main__':
     init_logger()
     logger.debug('starting new session')
 
-    mc = MediaCenter.MediaCenter(logger)
+    utils = Utils.Utils(logger)
+    mc = MediaCenter.MediaCenter(utils, logger)
     mc.display_default_screen()
+
+    server = SimpleServer.SimpleServer(utils, mc, logger)
+    server.run()
+
     try:
         while True:
             mc.read_button_states()
@@ -36,11 +43,11 @@ if __name__ == '__main__':
 
             if mc.button_states['b2']:  # press prev station
                 mc.player.prev_station()
-                mc.set_config_param('last_station', mc.player.get_current_station())
+                utils.set_config_param('last_station', mc.player.get_current_station())
 
             if mc.button_states['b3']:  # press next station
                 mc.player.next_station()
-                mc.set_config_param('last_station', mc.player.get_current_station())
+                utils.set_config_param('last_station', mc.player.get_current_station())
 
             if mc.button_states['b4']:  # press change screen mode
                 mc.clear_screen()
@@ -58,7 +65,7 @@ if __name__ == '__main__':
     except KeyboardInterrupt:
         print(u"\r\n Bye")
     finally:
-        mc.set_config_param('last_station', mc.player.get_current_station())
-        mc.save_config_to_file()
+        utils.set_config_param('last_station', mc.player.get_current_station())
+        utils.save_config_to_file()
         mc.clear_screen()
         logger.debug('going down')

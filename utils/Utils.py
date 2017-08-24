@@ -1,12 +1,44 @@
 import subprocess
 import time
 
+import yaml
+
 
 class Utils:
     temp_sensor_file = ''
+    config = {}
+    logger = None
+    _config_file = 'config.yaml'
 
-    def __init__(self, sensor_file):
-        self.temp_sensor_file = sensor_file
+    def __init__(self, logger):
+        self.logger = logger
+
+        self.config = self.read_config()
+        self.temp_sensor_file = self.config['temp_sensor_file']
+
+    def read_config(self):
+        with open(self._config_file, 'r') as f:
+            try:
+                self.config = yaml.load(f)
+                return self.config
+            except yaml.YAMLError as exc:
+                self.logger.error(exc.message)
+
+    def save_config_to_file(self):
+        with open(self._config_file, 'w') as outfile:
+            yaml.dump(self.config, outfile, default_flow_style=False)
+
+    def set_config_param(self, param_name, param_value):
+        self.config[param_name] = param_value
+
+    def get_cpu_temp(self):
+        p = subprocess.Popen(["cat", self.config['cpu_temp_file']], stdout=subprocess.PIPE)
+        time.sleep(0.1)
+        line = p.stdout.readline()
+        if line != '':
+            return line.rstrip()
+        else:
+            return False
 
     @staticmethod
     def get_ram_usage():
@@ -31,16 +63,6 @@ class Utils:
         tempo = int(l[10]) - int(l[0]) + int(l[12]) - int(l[2])
         result = "%.1f" % (tempo * 100 / (tempo + int(l[13]) - int(l[3])))
         return result
-
-    @staticmethod
-    def get_cpu_temp():
-        p = subprocess.Popen(["cat", '/sys/devices/virtual/thermal/thermal_zone0/temp'], stdout=subprocess.PIPE)
-        time.sleep(0.1)
-        line = p.stdout.readline()
-        if line != '':
-            return line.rstrip()
-        else:
-            return False
 
     def read_temp_raw(self):
         f = open(self.temp_sensor_file, 'r')
