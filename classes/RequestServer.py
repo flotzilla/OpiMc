@@ -16,8 +16,7 @@ key = None
 
 class RequestHandler(SimpleHTTPRequestHandler):
     json_content_type = 'application/json'
-    # hide server credentials
-    server_version = 'Apachan/1337'
+    server_version = 'Apachan-webservar/1337' # hide server credentials
 
     def __init__(self, request, client_address, server):
         global config_instance, media_center_instance, key
@@ -40,6 +39,7 @@ class RequestHandler(SimpleHTTPRequestHandler):
             return False
         elif self.headers.getheader('Authorization') == 'Basic ' + key:
             self._set_headers()
+            return True
 
     def do_auth_head(self):
         self.send_response(401)
@@ -91,6 +91,9 @@ class RequestHandler(SimpleHTTPRequestHandler):
     def parse_get_temp(self):
         global utils_instance
         self.wfile.write('status: "ok", temperature: ' + utils_instance.read_temp() + '"')
+
+    def version_string(self):
+        return self.server_version
 
 
 class SimpleServer(ThreadingMixIn, HTTPServer):
