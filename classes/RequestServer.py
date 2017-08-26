@@ -9,12 +9,15 @@ import ssl
 
 media_center_instance = None
 config_instance = None
+utils_instance = None
 logger_instance = None
 key = None
 
 
 class RequestHandler(SimpleHTTPRequestHandler):
     json_content_type = 'application/json'
+    # hide server credentials
+    server_version = 'Apachan/1337'
 
     def __init__(self, request, client_address, server):
         global config_instance, media_center_instance, key
@@ -26,48 +29,65 @@ class RequestHandler(SimpleHTTPRequestHandler):
         self.send_header('Content-type', self.json_content_type)
         self.end_headers()
 
-    def do_GET(self):
+    def check_auth(self):
         global key
         if self.headers.getheader('Authorization') is None:
-            self.do_AUTHHEAD()
-            self.wfile.write('{status: No auth received}')
+            self.do_auth_head()
+            self.wfile.write('{status: "No auth received"}')
+            return False
         elif self.headers.getheader('Authorization') == 'Basic ' + key:
             self._set_headers()
-            self.parse_command_request()
-        else:
-            self.do_AUTHHEAD()
-            self.wfile.write('{status: Not authenticated}')
 
-    def do_HEAD(self):
-        self._set_headers()
-
-    def do_AUTHHEAD(self):
+    def do_auth_head(self):
         self.send_response(401)
         self.send_header('WWW-Authenticate', 'Basic realm=\"Secure HTTP Environment\"')
         self.send_header('Content-type', self.json_content_type)
         self.end_headers()
 
+    def do_GET(self):
+        if self.check_auth():
+            self._set_headers()
+            self.parse_command_request()
+        else:
+            self.do_auth_head()
+            self.wfile.write('{status: "Not authenticated"}')
+
+    def do_HEAD(self):
+        if self.check_auth():
+            self._set_headers()
+            self.wfile.write('{status: "ok", message: "method not supported"')
+        else:
+            self.do_auth_head()
+            self.wfile.write('{status: "Not authenticated"}')
+
     def do_POST(self):
-        # Doesn't do anything with posted data
-        self._set_headers()
-        self.wfile.write("<html><body><h1>POST!</h1></body></html>")
+        if self.check_auth():
+            self._set_headers()
+            self.wfile.write('{status: "ok", message: "method not supported"')
+        else:
+            self.do_auth_head()
+            self.wfile.write('{status: "Not authenticated"}')
 
     def parse_command_request(self):
         request = urlparse(self.path)
         query = parse_qs(request.query)
-        print query
-        print self.path
-        print request.path
-        test_param = query.get('test', None)
-        if test_param is not None:
-            print "getting test param " + test_param[0]
-        self.wfile.write('{status: ok}')
 
-    def parse_get_current_station(self):
-        pass
+        if request.path == '/get-current-station':
+            self.parse_get_current_station(query)
+        elif request.path == '/get-temp':
+            self.parse_get_temp()
+        else:
+            self.wfile.write('{status: "ok"}')
+
+    def parse_get_current_station(self, query):
+        # test_param = query.get('test', None)
+        # if test_param is not None:
+        #     print test_param[0]
+        self.wfile.write('{status: "ok"')
 
     def parse_get_temp(self):
-        pass
+        global utils_instance
+        self.wfile.write('status: "ok", temperature: ' + utils_instance.read_temp() + '"')
 
 
 class SimpleServer(ThreadingMixIn, HTTPServer):
@@ -81,10 +101,11 @@ class RequestServer:
     httpd = None
 
     def __init__(self, utils, mc, logger):
-        global logger_instance, media_center_instance, config_instance
+        global logger_instance, media_center_instance, config_instance, utils_instance
         config_instance = utils.config
         media_center_instance = mc
         logger_instance = logger
+        utils_instance = utils
 
         self.server_address = utils.config['server_address']
         self.port = utils.config['server_port']
