@@ -30,7 +30,10 @@ class RequestHandler(SimpleHTTPRequestHandler):
         self.end_headers()
 
     def check_auth(self):
-        global key
+        global key, config_instance
+        if key is None:
+            key = base64.b64encode(config_instance['server_user_name'] + ':' + config_instance['server_user_password'])
+
         if self.headers.getheader('Authorization') is None:
             self.do_auth_head()
             self.wfile.write('{status: "No auth received"}')
