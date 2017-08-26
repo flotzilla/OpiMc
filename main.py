@@ -68,4 +68,5 @@ if __name__ == '__main__':
         utils.set_config_param('last_station', mc.player.get_current_station())
         utils.save_config_to_file()
         mc.clear_screen()
+        server.stop()
         logger.debug('going down')

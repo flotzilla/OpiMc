@@ -20,20 +20,20 @@ class RequestHandler(SimpleHTTPRequestHandler):
 
     def _set_headers(self):
         self.send_response(200)
-        self.send_header('Content-type', 'text/html')
+        self.send_header('Content-type', 'application/json')
         self.end_headers()
 
     def do_GET(self):
         global key
         if self.headers.getheader('Authorization') is None:
             self.do_AUTHHEAD()
-            self.wfile.write('No auth received')
+            self.wfile.write('{status: No auth received}')
         elif self.headers.getheader('Authorization') == 'Basic ' + key:
             self._set_headers()
-            self.wfile.write("<body><p>This is a test.</p>")
+            self.wfile.write("{status: success}")
         else:
             self.do_AUTHHEAD()
-            self.wfile.write('Not authenticated')
+            self.wfile.write('{status: Not authenticated}')
 
     def do_HEAD(self):
         self._set_headers()
@@ -90,13 +90,7 @@ class RequestServer:
         logger_instance.debug('starting main thread')
         self.httpd_thread.start()
 
-    def pause(self):
-        pass
-
-    def resume(self):
-        pass
-
-    def stop_server(self):
+    def stop(self):
         self.httpd.shutdown()
         self.httpd.server_close()
 
