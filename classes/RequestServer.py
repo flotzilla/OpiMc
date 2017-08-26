@@ -1,6 +1,7 @@
 from SocketServer import ThreadingMixIn
 from BaseHTTPServer import HTTPServer
 from SimpleHTTPServer import SimpleHTTPRequestHandler
+from urlparse import urlparse, parse_qs
 import threading
 
 import base64
@@ -13,6 +14,8 @@ key = None
 
 
 class RequestHandler(SimpleHTTPRequestHandler):
+    json_content_type = 'application/json'
+
     def __init__(self, request, client_address, server):
         global config_instance, media_center_instance, key
         SimpleHTTPRequestHandler.__init__(self, request, client_address, server)
@@ -20,7 +23,7 @@ class RequestHandler(SimpleHTTPRequestHandler):
 
     def _set_headers(self):
         self.send_response(200)
-        self.send_header('Content-type', 'application/json')
+        self.send_header('Content-type', self.json_content_type)
         self.end_headers()
 
     def do_GET(self):
@@ -30,7 +33,7 @@ class RequestHandler(SimpleHTTPRequestHandler):
             self.wfile.write('{status: No auth received}')
         elif self.headers.getheader('Authorization') == 'Basic ' + key:
             self._set_headers()
-            self.wfile.write("{status: success}")
+            self.parse_command_request()
         else:
             self.do_AUTHHEAD()
             self.wfile.write('{status: Not authenticated}')
@@ -41,7 +44,7 @@ class RequestHandler(SimpleHTTPRequestHandler):
     def do_AUTHHEAD(self):
         self.send_response(401)
         self.send_header('WWW-Authenticate', 'Basic realm=\"Secure HTTP Environment\"')
-        self.send_header('Content-type', 'application/json')
+        self.send_header('Content-type', self.json_content_type)
         self.end_headers()
 
     def do_POST(self):
@@ -50,12 +53,16 @@ class RequestHandler(SimpleHTTPRequestHandler):
         self.wfile.write("<html><body><h1>POST!</h1></body></html>")
 
     def parse_command_request(self):
+        query = parse_qs(urlparse(self.path).query)
+        print query
+        test_param = query.get('test', None)
+        if test_param is not None:
+            print "getting test param " + test_param
+
+    def parse_get_current_station(self):
         pass
 
-    def parse_start(self):
-        pass
-
-    def parse_stop(self):
+    def parse_get_temp(self):
         pass
 
 
