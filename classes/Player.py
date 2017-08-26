@@ -13,11 +13,13 @@ class Player:
     _vlc_instance = None
 
     is_playing = False
+    stations_list = None
 
     def __init__(self):
         with open('stations.json') as json_data_file:
             self._list = json.load(json_data_file)
         self._stations = sorted(self._list)
+        self.stations_list = self._stations[:]
         self._current_station_indx = 0
 
         self._init_player()

@@ -58,11 +58,19 @@ class RequestHandler(SimpleHTTPRequestHandler):
 
     def do_HEAD(self):
         if self.check_auth():
-            self.wfile.write('{status: "ok", message: "method not supported"')
+            response = json.dumps({
+                'status': 'ok, but wait',
+                'message': 'method not supported'
+            })
+            self.wfile.write(response)
 
     def do_POST(self):
         if self.check_auth():
-            self.wfile.write('{status: "ok", message: "method not supported"')
+            response = json.dumps({
+                'status': 'ok, but wait',
+                'message': 'method not supported'
+            })
+            self.wfile.write(response)
 
     def parse_command_request(self):
         request = urlparse(self.path)
@@ -89,7 +97,55 @@ class RequestHandler(SimpleHTTPRequestHandler):
 
     def parse_get_temp(self):
         global utils_instance
-        self.wfile.write('{ status: "ok", temperature: ' + utils_instance.read_temp() + '}')
+
+        response = json.dumps({
+            'status': 'ok',
+            'temperature': utils_instance.read_temp()
+        })
+        self.wfile.write(response)
+
+    def parse_player_play_stop(self):
+        global media_center_instance
+        message = 'Let there be rock'
+
+        if media_center_instance.player.is_playing:
+            message = 'Let there be silence'
+            media_center_instance.player.pause()
+        else:
+            media_center_instance.player.play()
+
+        response = json.dumps({
+            'status': 'ok',
+            'message': message
+        })
+        self.wfile.write(response)
+
+    def parse_player_next_station(self):
+        global media_center_instance
+        media_center_instance.player.next_station()
+
+        response = json.dumps({
+            'status': 'playing next station',
+            'current_station': media_center_instance.player.get_current_station()
+        })
+        self.wfile.write(response)
+
+    def parse_player_previous_station(self):
+        global media_center_instance
+        media_center_instance.player.prev_station()
+
+        response = json.dumps({
+            'status': 'playing next station',
+            'current_station': media_center_instance.player.get_current_station()
+        })
+        self.wfile.write(response)
+
+    def parse_get_player_stations_list(self):
+        response = json.dumps({
+            'status': 'playing next station',
+            'stations_list': media_center_instance.player.stations_list
+        })
+        self.wfile.write(response)
 
     def version_string(self):
         return self.server_version
