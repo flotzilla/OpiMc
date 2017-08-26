@@ -122,7 +122,7 @@ class MediaCenter:
     def _display_player_icon(self):
         # display player icon
         self.lcd.lcd_write(0x80 + 15)
-        if self.player.isPlaying:
+        if self.player.is_playing:
             # write speaker char at the end of first line
             self.lcd.lcd_write_char(5)
         else:

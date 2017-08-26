@@ -6,6 +6,7 @@ import threading
 
 import base64
 import ssl
+import json
 
 media_center_instance = None
 config_instance = None
@@ -74,15 +75,21 @@ class RequestHandler(SimpleHTTPRequestHandler):
         else:
             self.wfile.write('{status: "ok"}')
 
-    def parse_get_current_station(self, query):
+    def parse_get_player_state(self, query):
         # test_param = query.get('test', None)
         # if test_param is not None:
         #     print test_param[0]
-        self.wfile.write('{status: "ok"')
+        global media_center_instance
+        response = json.dumps({
+            'status': 'ok',
+            'current_station': media_center_instance.player.get_current_station(),
+            'is_playing': media_center_instance.player.is_playing
+        })
+        self.wfile.write(response)
 
     def parse_get_temp(self):
         global utils_instance
-        self.wfile.write('status: "ok", temperature: ' + utils_instance.read_temp() + '"')
+        self.wfile.write('{ status: "ok", temperature: ' + utils_instance.read_temp() + '}')
 
     def version_string(self):
         return self.server_version

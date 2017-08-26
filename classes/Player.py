@@ -8,11 +8,11 @@ class Player:
     _current_station = ''
     _current_station_indx = ''
     _current_station_link = {}
-    current_station_name = ""
-    isPlaying = False
 
     _player_instance = None
     _vlc_instance = None
+
+    is_playing = False
 
     def __init__(self):
         with open('stations.json') as json_data_file:
@@ -64,11 +64,11 @@ class Player:
 
     def play(self):
         self._player_instance.play()
-        self.isPlaying = True
+        self.is_playing = True
 
     def pause(self):
         self._player_instance.pause()
-        self.isPlaying = False
+        self.is_playing = False
 
     def get_current_station(self):
         return self._current_station
