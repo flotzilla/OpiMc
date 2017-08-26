@@ -54,10 +54,12 @@ class RequestHandler(SimpleHTTPRequestHandler):
 
     def parse_command_request(self):
         query = parse_qs(urlparse(self.path).query)
-        print query
+        print query + u"\r\n"
+        print self.path + u"\r\n"
         test_param = query.get('test', None)
         if test_param is not None:
             print "getting test param " + test_param[0]
+        self.wfile.write('{status: ok}')
 
     def parse_get_current_station(self):
         pass
