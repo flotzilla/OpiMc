@@ -15,3 +15,5 @@
 * automatically set ip-address for http server (from default network interface)
 * finish systemd service
 * timer and alarm for morning music ??
+* add screenshots
+* add electronic circuit diagram
