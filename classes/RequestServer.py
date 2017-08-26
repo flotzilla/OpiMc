@@ -68,8 +68,8 @@ class RequestHandler(SimpleHTTPRequestHandler):
         request = urlparse(self.path)
         query = parse_qs(request.query)
 
-        if request.path == '/get-current-station':
-            self.parse_get_current_station(query)
+        if request.path == '/get-player-state':
+            self.parse_get_player_state(query)
         elif request.path == '/get-temp':
             self.parse_get_temp()
         else:
