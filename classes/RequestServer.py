@@ -49,7 +49,6 @@ class RequestHandler(SimpleHTTPRequestHandler):
 
     def do_GET(self):
         if self.check_auth():
-            self._set_headers()
             self.parse_command_request()
         else:
             self.do_auth_head()
@@ -57,7 +56,6 @@ class RequestHandler(SimpleHTTPRequestHandler):
 
     def do_HEAD(self):
         if self.check_auth():
-            self._set_headers()
             self.wfile.write('{status: "ok", message: "method not supported"')
         else:
             self.do_auth_head()
@@ -65,7 +63,6 @@ class RequestHandler(SimpleHTTPRequestHandler):
 
     def do_POST(self):
         if self.check_auth():
-            self._set_headers()
             self.wfile.write('{status: "ok", message: "method not supported"')
         else:
             self.do_auth_head()
