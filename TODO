@@ -1,9 +1,17 @@
 * add more radio stations [done]
-* add parser for stations ??
-* add outdoor temperature
-* add tcp server
-    - read temp action
-    - play/pause action
+* add parser for stations ?? for getting current track metainfo
+* obtain outdoor temperature from openweather api ??
+* add http server [done]
+* add http server actions:
+    - read temp [done]
+    - play/pause [done]
+    - set station
+    - load new stations
+    - add errors handler for unreported action (501)
+    - add restart service action
 * add config file [done]
     last played radio station [done]
-
+* create android/sailfish app
+* automatically set ip-address for http server (from default network interface)
+* finish systemd service
+* timer and alarm for morning music ??

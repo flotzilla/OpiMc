@@ -17,7 +17,7 @@ key = None
 
 class RequestHandler(SimpleHTTPRequestHandler):
     json_content_type = 'application/json'
-    server_version = 'Apachan-webservar/1337' # hide server credentials
+    server_version = 'Apachan-webservar/1337'  # hide server credentials
 
     def __init__(self, request, client_address, server):
         global config_instance, media_center_instance, key
@@ -150,7 +150,7 @@ class RequestHandler(SimpleHTTPRequestHandler):
 
     def parse_get_player_stations_list(self):
         response = json.dumps({
-            'status': 'playing next station',
+            'status': 'ok',
             'stations_list': media_center_instance.player.stations_list
         })
         self.wfile.write(response)
