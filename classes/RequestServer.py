@@ -76,10 +76,18 @@ class RequestHandler(SimpleHTTPRequestHandler):
         request = urlparse(self.path)
         query = parse_qs(request.query)
 
-        if request.path == '/get-player-state':
+        if request.path == '/player-get-state':
             self.parse_get_player_state(query)
         elif request.path == '/get-temp':
             self.parse_get_temp()
+        elif request.path == '/player_play_stop':
+            self.parse_player_play_stop()
+        elif request.path == '/player_next':
+            self.parse_player_next_station()
+        elif request.path == '/player_previous':
+            self.parse_player_previous_station()
+        elif request.path == '/player_get_stations_list':
+            self.parse_get_player_stations_list()
         else:
             self.wfile.write('{status: "ok"}')
 
