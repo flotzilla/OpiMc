@@ -1,7 +1,10 @@
-import base64
-import ssl
+from SocketServer import ThreadingMixIn
 from BaseHTTPServer import HTTPServer
 from SimpleHTTPServer import SimpleHTTPRequestHandler
+import threading
+
+import base64
+import ssl
 
 media_center_instance = None
 config_instance = None
@@ -56,7 +59,16 @@ class RequestHandler(SimpleHTTPRequestHandler):
         pass
 
 
-class SimpleServer:
+class SimpleServer(ThreadingMixIn, HTTPServer):
+    """Handle request in new thread"""
+
+
+class RequestServer:
+    port = 10000
+    server_address = ''
+    httpd_thread = None
+    httpd = None
+
     def __init__(self, utils, mc, logger):
         global logger_instance, media_center_instance, config_instance
         config_instance = utils.config
@@ -67,10 +79,24 @@ class SimpleServer:
         self.port = utils.config['server_port']
 
     def run(self):
-        global config_instance
+        global config_instance, logger_instance
         server_address = (self.server_address, self.port)
-        httpd = HTTPServer(server_address, RequestHandler)
-        httpd.socket = ssl.wrap_socket(httpd.socket,
-                                       certfile='./' + config_instance['ssl_cert_file_location'],
-                                       server_side=True)
-        httpd.serve_forever()
+        self.httpd = SimpleServer(server_address, RequestHandler)
+        self.httpd.socket = ssl.wrap_socket(self.httpd.socket,
+                                            certfile='./' + config_instance['ssl_cert_file_location'],
+                                            server_side=True)
+        self.httpd_thread = threading.Thread(target=self.httpd.serve_forever)
+        self.httpd_thread.daemon = True
+        logger_instance.debug('starting main thread')
+        self.httpd_thread.start()
+
+    def pause(self):
+        pass
+
+    def resume(self):
+        pass
+
+    def stop_server(self):
+        self.httpd.shutdown()
+        self.httpd.server_close()
+

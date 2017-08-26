@@ -1,5 +1,5 @@
 import time
-from classes import MediaCenter, SimpleServer
+from classes import MediaCenter, RequestServer
 import logging
 
 from utils import Utils
@@ -24,7 +24,7 @@ if __name__ == '__main__':
     mc = MediaCenter.MediaCenter(utils, logger)
     mc.display_default_screen()
 
-    server = SimpleServer.SimpleServer(utils, mc, logger)
+    server = RequestServer.RequestServer(utils, mc, logger)
     server.run()
 
     try:
