@@ -41,7 +41,7 @@ class RequestHandler(SimpleHTTPRequestHandler):
     def do_AUTHHEAD(self):
         self.send_response(401)
         self.send_header('WWW-Authenticate', 'Basic realm=\"Secure HTTP Environment\"')
-        self.send_header('Content-type', 'text/html')
+        self.send_header('Content-type', 'application/json')
         self.end_headers()
 
     def do_POST(self):
