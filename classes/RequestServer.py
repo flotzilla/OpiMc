@@ -53,9 +53,11 @@ class RequestHandler(SimpleHTTPRequestHandler):
         self.wfile.write("<html><body><h1>POST!</h1></body></html>")
 
     def parse_command_request(self):
-        query = parse_qs(urlparse(self.path).query)
-        print query + u"\r\n"
-        print self.path + u"\r\n"
+        request = urlparse(self.path)
+        query = parse_qs(request.query)
+        print query
+        print self.path
+        print request.path
         test_param = query.get('test', None)
         if test_param is not None:
             print "getting test param " + test_param[0]
