@@ -57,7 +57,7 @@ class RequestHandler(SimpleHTTPRequestHandler):
         print query
         test_param = query.get('test', None)
         if test_param is not None:
-            print "getting test param " + test_param
+            print "getting test param " + test_param[0]
 
     def parse_get_current_station(self):
         pass
