@@ -40,6 +40,10 @@ class RequestHandler(SimpleHTTPRequestHandler):
         elif self.headers.getheader('Authorization') == 'Basic ' + key:
             self._set_headers()
             return True
+        else:
+            self.do_auth_head()
+            self.wfile.write('{status: "Not authenticated"}')
+            return False
 
     def do_auth_head(self):
         self.send_response(401)
@@ -50,23 +54,14 @@ class RequestHandler(SimpleHTTPRequestHandler):
     def do_GET(self):
         if self.check_auth():
             self.parse_command_request()
-        else:
-            self.do_auth_head()
-            self.wfile.write('{status: "Not authenticated"}')
 
     def do_HEAD(self):
         if self.check_auth():
             self.wfile.write('{status: "ok", message: "method not supported"')
-        else:
-            self.do_auth_head()
-            self.wfile.write('{status: "Not authenticated"}')
 
     def do_POST(self):
         if self.check_auth():
             self.wfile.write('{status: "ok", message: "method not supported"')
-        else:
-            self.do_auth_head()
-            self.wfile.write('{status: "Not authenticated"}')
 
     def parse_command_request(self):
         request = urlparse(self.path)
