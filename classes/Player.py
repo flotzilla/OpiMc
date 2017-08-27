@@ -6,6 +6,7 @@ class Player:
     _list = {}
     _stations = []
     _current_station = ''
+    _previous_station = ''
     _current_station_indx = ''
     _current_station_link = {}
 
@@ -51,6 +52,7 @@ class Player:
         self.play()
 
     def _load_station(self):
+        self._previous_station = self._current_station
         self._current_station = self._stations[self._current_station_indx]
         self._current_station_link = self._list[self._current_station]['link']
         self._player_instance.set_media(
@@ -74,3 +76,6 @@ class Player:
 
     def get_current_station(self):
         return self._current_station
+
+    def get_previous_station(self):
+        return self._previous_station

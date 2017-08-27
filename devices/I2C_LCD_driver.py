@@ -84,8 +84,8 @@ LCD_BLINKOFF = 0x00
 # flags for display/cursor shift
 LCD_DISPLAYMOVE = 0x08
 LCD_CURSORMOVE = 0x00
-LCD_MOVERIGHT = 0x04
-LCD_MOVELEFT = 0x00
+LCD_MOVERIGHT = 0x04  # 0x18 ??
+LCD_MOVELEFT = 0x00  # 0x1C ??
 
 # flags for function set
 LCD_8BITMODE = 0x10

@@ -44,6 +44,13 @@ class MediaCenter:
     # variables
     curr_temp = prev_temp = 0.00
 
+    running_line = {
+        'is_active': False,
+        'current_station': '',
+        'previous_station': '',
+        'steps_index': 0
+    }
+
     def __init__(self, utils, logger):
         self.logger = logger
         self.utils = utils
@@ -102,8 +109,11 @@ class MediaCenter:
         self.lcd.lcd_write(0x080)
         self.lcd.lcd_write_char(3)
 
-        str = self.player.get_current_station()[:16]
+        #str = self.player.get_current_station()[:16]
+        str = self._get_running_line()
         spaces = 16 - len(str)
+        print str
+        print len(str)
 
         self.lcd.lcd_display_string(str + spaces * " ", 2)
 
@@ -127,3 +137,24 @@ class MediaCenter:
             self.lcd.lcd_write_char(5)
         else:
             self.lcd.lcd_write_char(ord(' '))
+
+    def _get_running_line(self):
+        self.running_line['current_station'] = self.player.get_current_station()
+        if self.running_line['current_station'] is not self.running_line['previous_station']:
+            self.running_line['is_active'] = False
+            self.running_line['steps_index'] = 0
+        else:
+            self.running_line['is_active'] = True
+            if self.running_line['steps_index'] - 1 == len(self.running_line['current_station']):
+                self.running_line['steps_index'] = 0
+            else:
+                self.running_line['steps_index'] += 1
+
+            index = self.running_line['steps_index']
+            new_line = self.running_line['current_station'][index:15 + index]
+            new_line_addon = ""
+            new_line_len = len(new_line)
+            if new_line_len < 16:
+                new_line_addon = " " + self.running_line['current_station'][new_line_len: 14 - new_line_len]
+                return new_line + new_line_addon
+            return new_line
