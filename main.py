@@ -34,7 +34,7 @@ if __name__ == '__main__':
 
             if mc.button_states['b1']:  # press play / pause
                 if mc.prev_button_states['b1'] is not True:
-                    if mc.player.isPlaying:
+                    if mc.player.is_playing:
                         mc.player.pause()
                     else:
                         mc.player.play()
@@ -65,8 +65,6 @@ if __name__ == '__main__':
 
     except KeyboardInterrupt:
         print(u"\r\n Bye")
-    except Exception as e:
-        logger.error("Whoops", e.message)
     finally:
         utils.set_config_param('last_station', mc.player.get_current_station())
         utils.save_config_to_file()
