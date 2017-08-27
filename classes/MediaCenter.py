@@ -104,6 +104,7 @@ class MediaCenter:
 
     # screen state 2
     def display_screen2(self):
+        self.running_line['previous_station'] = self.running_line['current_station']
         self._display_player_icon()
         self.lcd.lcd_display_string_pos("%s" % time.strftime("%H:%M %d/%m"), 1, 1)
         self.lcd.lcd_write(0x080)
@@ -114,6 +115,7 @@ class MediaCenter:
         spaces = 16 - len(str)
         print str
         print len(str)
+        print self.running_line
 
         self.lcd.lcd_display_string(str + spaces * " ", 2)
 
