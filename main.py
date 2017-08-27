@@ -65,8 +65,8 @@ if __name__ == '__main__':
 
     except KeyboardInterrupt:
         print(u"\r\n Bye")
-    except Exception, e:
-        logger.error("Whoops", e)
+    except Exception as e:
+        logger.error("Whoops", e.message)
     finally:
         utils.set_config_param('last_station', mc.player.get_current_station())
         utils.save_config_to_file()
