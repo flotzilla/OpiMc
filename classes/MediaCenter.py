@@ -143,6 +143,7 @@ class MediaCenter:
         if self.running_line['current_station'] is not self.running_line['previous_station']:
             self.running_line['is_active'] = False
             self.running_line['steps_index'] = 0
+            return self.running_line['current_station']
         else:
             self.running_line['is_active'] = True
             if self.running_line['steps_index'] - 1 == len(self.running_line['current_station']):
