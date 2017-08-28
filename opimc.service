@@ -1,15 +1,15 @@
 [Unit]
 Description=Media center 
-After=multi-user.target
+After=network-online.target
 
 [Service]
-Type=simple
+Type=idle
 User=root
 WorkingDirectory=/home/pi/dev/OpiMc
 ExecStart=/usr/bin/python /home/pi/dev/OpiMc/main.py
 
 StandardOutput=null
-StandardError=null
+StandardError=journal
 
 [Install]
-WantedBy=multi-user.target
+WantedBy=network-online.target
