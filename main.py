@@ -17,7 +17,6 @@ def init_logger():
 
 
 if __name__ == '__main__':
-    global logger
     init_logger()
     logger.debug('starting new session')
 

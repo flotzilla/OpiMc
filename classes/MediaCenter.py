@@ -110,12 +110,8 @@ class MediaCenter:
         self.lcd.lcd_write(0x080)
         self.lcd.lcd_write_char(3)
 
-        #str = self.player.get_current_station()[:16]
         str = self._get_running_line()
         spaces = 16 - len(str)
-        print str
-        print len(str)
-        print self.running_line
 
         self.lcd.lcd_display_string(str + spaces * " ", 2)
 
@@ -155,9 +151,10 @@ class MediaCenter:
 
             index = self.running_line['steps_index']
             new_line = self.running_line['current_station'][index:15 + index]
-            new_line_addon = ""
             new_line_len = len(new_line)
             if new_line_len < 16:
-                new_line_addon = " " + self.running_line['current_station'][new_line_len: 14 - new_line_len]
-                return new_line + new_line_addon
+                new_line_addon = self.running_line['current_station'][0:]
+                new_line += " " + new_line_addon
+		while len(new_line) < 16:
+		    new_line += " " + new_line_addon
             return new_line
