@@ -36,7 +36,6 @@ Preparations
 - Change lcd i2c address in `devices/I2C_LCD_driver.py` file from __0x3F__ to your address
 - Generate ssl key for build-in http-server with command `openssl req -new -x509 -keyout server.pem -out server.pem -days 365 -nodes`
  and put `server.pem` file to `certfile` directory. Notice, that during of running openssl command, you should specify parameter `common name` as your device local ip address.
- Or use better certificate  
 - Change `server_user_name` and `server_user_password` params to yours for base http authentication 
 
 
