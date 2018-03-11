@@ -1,5 +1,6 @@
 import subprocess
 import time
+import os.path
 
 import yaml
 
@@ -65,6 +66,8 @@ class Utils:
         return result
 
     def read_temp_raw(self):
+        if !os.path.isfile(self.temp_sensor_file):
+            return False
         f = open(self.temp_sensor_file, 'r')
         str = f.readlines()
         f.close()
@@ -72,6 +75,8 @@ class Utils:
 
     def read_temp(self):
         lines = self.read_temp_raw()
+        if lines == False:
+            return False
         counter = 1
         while lines[0].strip()[-3:] != 'YES' or counter == 5:
             time.sleep(0.1)
