@@ -3,7 +3,7 @@ default_city: Kherson
 last_station: !!python/unicode 'lush'
 server_address: 0.0.0.0
 server_port: 10000
-server_user_name: user
-server_user_password: pass
 ssl_cert_file_location: certfile/server.pem
 temp_sensor_file: /sys/bus/w1/devices/28-05168238f6ff/w1_slave
+server_user_name: 'user'
+server_user_password: 'pass'
