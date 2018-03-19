@@ -22,12 +22,13 @@ if __name__ == '__main__':
 
     utils = Utils.Utils(logger)
     mc = MediaCenter.MediaCenter(utils, logger)
+    mc.read_tempo()
     mc.display_default_screen()
 
     server = RequestServer.RequestServer(utils, mc, logger)
-    server.run()
 
     try:
+        server.run()
         while True:
             mc.read_button_states()
 

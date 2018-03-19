@@ -1,9 +1,11 @@
 import time
+import threading
 
 from pyA20.gpio import gpio
 from pyA20.gpio import port
 from classes import Player
 from devices import I2C_LCD_driver
+from classes import OpenWeatherMap
 
 
 class MediaCenter:
@@ -74,6 +76,10 @@ class MediaCenter:
         if 'last_station' in self.utils.config:
             self.player.set_station(self.utils.config['last_station'])
 
+        # tempo
+        self.ow = OpenWeatherMap.OpenWeather(utils.config)
+        self.weather = None
+
     def read_button_states(self):
         self.button_states['b1'] = gpio.input(self.b1)
         self.button_states['b2'] = gpio.input(self.b2)
@@ -82,8 +88,8 @@ class MediaCenter:
 
     # screen state 0
     def display_default_screen(self):
-        self.curr_temp = self.utils.read_temp()
-        if self.curr_temp:
+        if self.weather is not None:
+            self.curr_temp = self.weather['temp']
             self.prev_temp = self.curr_temp
         else:
             self.curr_temp = self.prev_temp
@@ -158,3 +164,10 @@ class MediaCenter:
 		while len(new_line) < 16:
 		    new_line += " " + new_line_addon
             return new_line
+
+    def running_text(self, text, line):
+        pass
+
+    def read_tempo(self):
+        threading.Timer(self.utils.config['read_interval'], self.read_tempo).start()
+        self.weather = self.ow.get_tempo()
