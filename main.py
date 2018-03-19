@@ -22,7 +22,7 @@ if __name__ == '__main__':
 
     utils = Utils.Utils(logger)
     mc = MediaCenter.MediaCenter(utils, logger)
-    mc.read_tempo()
+    # mc.read_tempo()
     mc.display_default_screen()
 
     server = RequestServer.RequestServer(utils, mc, logger)
