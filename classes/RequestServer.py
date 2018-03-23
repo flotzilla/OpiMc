@@ -88,6 +88,8 @@ class RequestHandler(SimpleHTTPRequestHandler):
             self.parse_player_previous_station()
         elif request.path == '/player_get_stations_list':
             self.parse_get_player_stations_list()
+        elif request.path == '/set_volume':
+            self.set_sound_level(query)
         else:
             self.wfile.write('{status: "ok"}')
 
@@ -154,6 +156,12 @@ class RequestHandler(SimpleHTTPRequestHandler):
             'stations_list': media_center_instance.player.stations_list
         })
         self.wfile.write(response)
+
+    def set_sound_level(self, get_params):
+        if 'level' in get_params:
+            global utils_instance
+            utils_instance.set_volume(get_params['level'])
+        pass
 
     def version_string(self):
         return self.server_version

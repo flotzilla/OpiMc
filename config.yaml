@@ -13,3 +13,4 @@ open_weather_api_link: 'api.openweathermap.org'
 
 #temperarure read interval in second
 read_interval: 60.0
+audio_device_name: 'Lineout volume control'
