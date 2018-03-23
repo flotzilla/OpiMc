@@ -161,13 +161,14 @@ class MediaCenter:
             if new_line_len < 16:
                 new_line_addon = self.running_line['current_station'][0:]
                 new_line += " " + new_line_addon
-		while len(new_line) < 16:
-		    new_line += " " + new_line_addon
+        while len(new_line) < 16:
+            new_line += " " + new_line_addon
             return new_line
 
     def running_text(self, text, line):
         pass
 
     def read_tempo(self):
+        self.logger.debug('Running tempo reading')
         threading.Timer(self.utils.config['read_interval'], self.read_tempo).start()
         self.weather = self.ow.get_tempo()
