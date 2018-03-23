@@ -161,7 +161,16 @@ class RequestHandler(SimpleHTTPRequestHandler):
         if 'level' in get_params:
             global utils_instance
             utils_instance.set_volume(get_params['level'])
-        pass
+            response = json.dumps({
+                'status': 'ok',
+                'sound_level': 'will be set to ' + get_params['level']
+            })
+        else:
+            response = json.dumps({
+                'status': 'bad',
+                'message': 'cannot get level param'
+            })
+        self.wfile.write(response)
 
     def version_string(self):
         return self.server_version
