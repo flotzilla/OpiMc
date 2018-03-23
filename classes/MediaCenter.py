@@ -1,6 +1,7 @@
 import time
 import threading
 
+import sys
 from pyA20.gpio import gpio
 from pyA20.gpio import port
 from classes import Player
@@ -170,10 +171,15 @@ class MediaCenter:
         pass
 
     def read_tempo(self):
-        self.logger.debug('Running tempo reading')
-        self.timing_thread = threading.Timer(self.utils.config['read_interval'], self.read_tempo).start()
-        self.weather = self.ow.get_tempo()
+        try:
+            self.logger.debug('Running tempo reading')
+            self.timing_thread = threading.Timer(self.utils.config['read_interval'], self.read_tempo)
+            self.timing_thread.daemon = True
+            self.timing_thread.start()
+            self.weather = self.ow.get_tempo()
+        except (KeyboardInterrupt, SystemExit):
+            sys.exit()
 
     def kill_timing_threads(self):
-        if self.timing_thread is not None and self.timing_thread.isAlive():
+        if self.timing_thread is not None:
             self.timing_thread.cancel()
