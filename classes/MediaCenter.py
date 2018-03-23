@@ -35,6 +35,7 @@ class MediaCenter:
     player = None
     lcd = None
     utils = None
+    timing_thread = None
 
     # hardware states
     button_states = {'b1': False, 'b2': False, 'b3': False, 'b4': False}
@@ -170,5 +171,9 @@ class MediaCenter:
 
     def read_tempo(self):
         self.logger.debug('Running tempo reading')
-        threading.Timer(self.utils.config['read_interval'], self.read_tempo).start()
+        self.timing_thread = threading.Timer(self.utils.config['read_interval'], self.read_tempo).start()
         self.weather = self.ow.get_tempo()
+
+    def kill_timing_threads(self):
+        if self.timing_thread is not None and self.timing_thread.isAlive():
+            self.timing_thread.cancel()

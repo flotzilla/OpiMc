@@ -22,13 +22,13 @@ if __name__ == '__main__':
 
     utils = Utils.Utils(logger)
     mc = MediaCenter.MediaCenter(utils, logger)
-    # mc.read_tempo()
+    mc.read_tempo()
     mc.display_default_screen()
 
     server = RequestServer.RequestServer(utils, mc, logger)
+    server.run()
 
     try:
-        server.run()
         while True:
             mc.read_button_states()
 
@@ -69,5 +69,6 @@ if __name__ == '__main__':
         utils.set_config_param('last_station', mc.player.get_current_station())
         utils.save_config_to_file()
         mc.clear_screen()
+        mc.kill_timing_threads()
         server.stop()
         logger.debug('going down')
