@@ -158,12 +158,12 @@ class RequestHandler(SimpleHTTPRequestHandler):
         self.wfile.write(response)
 
     def set_sound_level(self, get_params):
-        if 'level' in get_params:
+        if 'level' in get_params and get_params['level']:
             global utils_instance
-            utils_instance.set_volume(get_params['level'])
+            utils_instance.set_volume(get_params['level'][0])
             response = json.dumps({
                 'status': 'ok',
-                'sound_level': 'will be set to ' + get_params['level']
+                'sound_level': 'will be set to ' + get_params['level'][0]
             })
         else:
             response = json.dumps({

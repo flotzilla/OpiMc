@@ -43,7 +43,7 @@ class Utils:
 
     def set_volume(self, volume_level):
         p = subprocess.Popen(["amixer",
-                              'sset ' + self.config['audio_device_name'] + volume_level + '%'],
+                              'sset ' + self.config['audio_device_name'] + ' ' + volume_level + '%'],
                              stdout=subprocess.PIPE)
         time.sleep(0.1)
         p.communicate()
