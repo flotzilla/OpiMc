@@ -42,11 +42,11 @@ class Utils:
             return False
 
     def set_volume(self, volume_level):
-        p = subprocess.Popen(["amixer",
-                              'sset ' + self.config['audio_device_name'] + ' ' + volume_level + '%'],
-                             stdout=subprocess.PIPE)
+        p = subprocess.Popen(['amixer sset "' + self.config['audio_device_name'] + '" ' + volume_level + '%'], stdout=subprocess.PIPE, shell=True)
         time.sleep(0.1)
-        p.communicate()
+        resp, err = p.communicate()
+        print err
+        return 
 
     @staticmethod
     def get_ram_usage():
