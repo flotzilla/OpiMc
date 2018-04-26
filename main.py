@@ -1,10 +1,51 @@
 import time
 from classes import MediaCenter, RequestServer
 import logging
-
 from utils import Utils
+import telepot
+from telepot.loop import MessageLoop
+import alsaaudio
+
 
 logger = None
+
+def handle(msg):
+    chat_id = msg['chat']['id']
+    command = msg['text']
+
+    print 'Got command: %s' % command
+
+    m = alsaaudio.Mixer('Line Out')
+    vol = m.getvolume()[0]
+
+    if command == '/next':
+        mc.player.next_station()
+        utils.set_config_param('last_station', mc.player.get_current_station())
+    elif command == '/prev':
+        mc.player.prev_station()
+        utils.set_config_param('last_station', mc.player.get_current_station())
+    elif command == '/pause':
+        mc.player.pause()
+    elif command == '/play':
+        mc.player.play()
+    elif command == '/station':
+        bot.sendMessage(chat_id, str(mc.player.get_current_station()))
+    elif command =='/volume':
+        bot.sendMessage(chat_id, str(m.getvolume()))
+    elif command =='/vol+':
+        print vol
+        vol = vol+10
+        if vol>100:
+            vol=100
+        m.setvolume(vol)
+        bot.sendMessage(chat_id, str(m.getvolume()))
+    elif command =='/vol-':
+        print vol
+        vol = vol-10
+        if vol<0:
+            vol=0
+        m.setvolume(vol)
+        bot.sendMessage(chat_id, str(m.getvolume()))
 
 
 def init_logger():
@@ -27,6 +68,11 @@ if __name__ == '__main__':
 
     server = RequestServer.RequestServer(utils, mc, logger)
     server.run()
+
+    bot = telepot.Bot('*insert your telegram token here*')
+
+    MessageLoop(bot, handle).run_as_thread()
+    print 'I am listening ...'
 
     try:
         while True:

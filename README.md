@@ -22,10 +22,11 @@ Feautures
 - display temperature 
 - display cpu and mem load
 - build-in python http-server to handle commands from remote
+- handle commands from telegram
 
 Dependencies
 =========
-Python modules `smbus, python-vlc, pyA20, pyyaml`
+Python modules `smbus, python-vlc, pyA20, pyyaml, python-alsaaudio, telepot`
 
 Module `pyA20` was wrote for Python version 2, so Python2 only 
    
@@ -37,7 +38,7 @@ Preparations
 - Generate ssl key for build-in http-server with command `openssl req -new -x509 -keyout server.pem -out server.pem -days 365 -nodes`
  and put `server.pem` file to `certfile` directory. Notice, that during of running openssl command, you should specify parameter `common name` as your device local ip address.
 - Change `server_user_name` and `server_user_password` params to yours for base http authentication 
-
+- Create telegram bot via BotFather, insert token into program (marked as *insert your telegram token here*)
 
 --- 
 
