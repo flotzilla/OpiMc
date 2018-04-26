@@ -4,8 +4,10 @@ from time import sleep
 
 class Encoder:
                         # GPIO Ports
+
     Enc_A = 16                              # Encoder input A: input GPIO 16 (PA19)
     Enc_B = 18                              # Encoder input B: input GPIO 18 (PA18)
+
     Volume =0
     NewCounter=0
     Rotary_counter = 0                      # Start counting from 0
@@ -71,6 +73,8 @@ class Encoder:
 	        self.Volume = 100
     	    #print self.NewCounter, self.Volume                    # some test print
 	    return self.Volume
+
 	return 255	# return 255 to indicate thats was no encoder position changes 
+
 
  
