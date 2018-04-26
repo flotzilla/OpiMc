@@ -1,5 +1,5 @@
 import time
-from classes import MediaCenter, RequestServer
+from classes import MediaCenter, RequestServer, Encoder
 import logging
 from utils import Utils
 import telepot
@@ -69,6 +69,9 @@ if __name__ == '__main__':
     server = RequestServer.RequestServer(utils, mc, logger)
     server.run()
 
+    en = Encoder.Encoder()
+    mix = alsaaudio.Mixer('Line Out')
+
     bot = telepot.Bot('*insert your telegram token here*')
 
     MessageLoop(bot, handle).run_as_thread()
@@ -76,6 +79,11 @@ if __name__ == '__main__':
 
     try:
         while True:
+            vm=en.get_volume()
+            if vm != 255:
+                print (vm)
+                mix.setvolume(vm)
+
             mc.read_button_states()
 
             if mc.button_states['b1']:  # press play / pause
